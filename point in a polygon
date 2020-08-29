@@ -1,0 +1,27 @@
+
+#include <stdio.h>
+constexpr auto ContornoCoord = ;
+double InsCoord[ContornoCoord] = {0,0,0,0,0,0,0,0};
+double Plat = 0;
+double Plon = 0;
+int main()
+{
+	int varControllo = 1;
+	for (int i = 0; i < (ContornoCoord/2)+1; i+=2)
+	{
+		if ((Plon * (InsCoord[i] - InsCoord[i + 2]) - Plat * (InsCoord[i + 1] - InsCoord[i + 3]) + InsCoord[i + 1] * InsCoord[i + 2] - InsCoord[i] * InsCoord[i + 3] )< 0)
+		{
+			varControllo = 0;
+			break;
+		}
+	}
+	if ((Plon * (InsCoord[ContornoCoord-2] - InsCoord[0]) - Plat * (InsCoord[ContornoCoord - 1] - InsCoord[1]) + InsCoord[ContornoCoord - 1] * InsCoord[0] - InsCoord[ContornoCoord - 2] * InsCoord[1]) < 0)
+	{
+		varControllo = 0;
+
+	}
+	if(varControllo == 1)
+		printf("il punto appartiene alla figura\n");
+	else
+		printf("il punto non appartiene alla figura\n");
+}
