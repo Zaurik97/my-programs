@@ -1,20 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <style>
+        #searchBox {
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            left: 0px;
+            margin: 0px;
+            z-index: 1000;
+        }
+        #lista {
+            margin-top: 38px;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selettore List Group</title>
 </head>
+
 <body>
-    <div class="input-group">
-        <input id="searchBox" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-        <button type="button" class="btn btn-outline-primary" onclick="initListGroup()">search</button>
+    <div class="input-group position:sticky-top : 0">
+        <input id="searchBox" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+            aria-describedby="search-addon" onclick="initSearchBox()" />
+        <!-- <button type="button" class="btn btn-outline-primary" onclick="initListGroup()">search</button> -->
     </div>
     <div class="list-group" id="lista">
         <!-- popolato in js -->
@@ -24,85 +46,144 @@
 
 <script>
     var ROWS = "";
-    initListGroup(`
-    [
-        {
-            "id":"cb33y2",
-            "titolo":"Beretta",
-            "descrizione":"made in italy che shotta più di tutti",
-            "didascalia":"tenere fuori dalla portata dei bambini",
-            "apice":"143,99"
-        },
-        {
-            "id":"2cntxq3",
-            "titolo":"9mm",
-            "descrizione":"comoda e con un tamburo musicale",
-            "didascalia":"caricatore venduto a parte",
-            "apice":"78,99"
-        },
-        {
-            "id":"3cm24w3xq",
-            "titolo":"Revolver",
-            "descrizione":"Per tutti gli amanti del vecchio stile, perfetta per roulette e giochi all'aperto",
-            "didascalia":"ricordarsi di lubrificare la rotella o esplode in mano",
-            "apice":"99,101"
-        }
-    ]
+    initListGroup(`[
+	{
+		"descrizione" : "Grande evento che prevede engagement, coinvolge diverse aree specialiste e ha un servizio all inclusive. Ad esempio festa aziendali, inaugurazioni di centri, roadshow in mall, grandi eventi in store.",
+		"id" : "1",
+		"titolo" : "Big Event"
+	},
+	{
+		"descrizione" : "Animazione ed eventi circoscritti che non prevedono concept strategici. Ad esempio piccoli eventi in mall, store traffic retailer con hostess e attività in store basiche, degustazioni in store, servizi Vison ottica, animazioni basiche per Centri e Retailer",
+		"id" : "2",
+		"titolo" : "Basic Activation"
+	},
+	{
+		"descrizione" : "Progetti integrati che prevedono comunicazione, promozione all'acquisto o all'azione, gaming e/o altre leve. Ad esempio attività di Influencer, Ambassador, progetti Barilla tipo Ringo, Store traffic Game7, Teddy, Room Natale nei centri, Espo Interattivi (Cannamela)",
+		"id" : "3",
+		"titolo" : "Engagement Activation"
+	},
+	{
+		"descrizione" : "Progetti di brand identity creativa per tutti i canali fisici e digitali",
+		"id" : "4",
+		"titolo" : "Brand Identity"
+	},
+	{
+		"descrizione" : "Campagne di comunicazione creative su media classici e digitali. Ad esempio campagne di prodotto consumer (Eat Happy), gestione all inclusive centri, campagne dei centri o di retailer (Svolta). Dove non è previsto acquisto e gestione media",
+		"id" : "5",
+		"titolo" : "Campagne Creative"
+	},
+	{
+		"descrizione" : "Lavori grafici (packaging, materiali BTL, magazine) che non prevedono una comunicazione strategica e/o pianificazione mezzi tradizionali e digitali, Ad esempio: calendari, adattamenti seriali su format (CIR), directory, orari, segnaletica...",
+		"id" : "6",
+		"titolo" : "Grafica"
+	},
+	{
+		"descrizione" : "Concorsi, operazioni a premio, collezionamenti, tutte le attività che richiedono un regolamento e incentivano l'acquisto. Ad esempio concorsi standard Mass Market (Tailor Made, Eurovo, Eridania, Concorsi nei Centri, Promo per i reatiler)",
+		"id" : "7",
+		"titolo" : "Promotion"
+	},
+	{
+		"descrizione" : "Progetti di ambientazioni durevoli non temporanee. Ad esempio Area bimbi, viabilità, negozi retail (Panini o SCJ), sedi company, progetti customer experience BPER...",
+		"id" : "8",
+		"titolo" : "Space design e Customer Experience"
+	},
+	{
+		"descrizione" : "Media planner e buying, off-line e on-line. Ad esempio Campagna TV e Affissioni Terre Ducali, Pianificazioni digital Nutribees, Campagne Social geolocalizzate, per brand, centri e retailer, campagne Trade (Tetra pak), attivazione di agenzie di Influencer",
+		"id" : "9",
+		"titolo" : "Media"
+	},
+	{
+		"descrizione" : "Gestione canali social ad esempio Linkedin Company, Meta Centri, Correre, Google My Business, Retailer...",
+		"id" : "10",
+		"titolo" : "Social"
+	},
+	{
+		"descrizione" : "Realizzazione piattaforme, app, siti, e-commerce che sono l'essenza del progetto. Ad esempio Sito istituzionale, e-commerce di Parmafood, app Cirghiotto (no piattaforme promo) ",
+		"id" : "11",
+		"titolo" : "Digital"
+	},
+	{
+		"descrizione" : "Realizzazione video, foto, audio c podcast che sono l'essenza del progetto come spot TV, video tutorial, video per prodotti, video animati. Ad esempio Bticino Tiwi, HPP, Spot TV, SCJ, Eat Happy, .... Non legati a pianoficazioni media",
+		"id" : "12",
+		"titolo" : "Video, foto, audio"
+	},
+	{
+		"descrizione" : "Progettazione e realizzazione materiali POP legati al prodotto che sono l'essenza del progetto. Materiali a perdere o durevoli, da terra e da banco. Ad esempio espo Delifrance, Montenegro, Couvette basiche (che non hanno pensiero di engagement)",
+		"id" : "13",
+		"titolo" : "POP"
+	},
+	{
+		"descrizione" : "Progetti, campagne, eventi che hanno come target i dipendenti dell'azienda (con oggetto della comunicazione fornito), formazione",
+		"id" : "14",
+		"titolo" : "Comunicazione Interna"
+	},
+	{
+		"descrizione" : "Produzione di materiali che sono l'essenza della richiesta (stampe, ristampe, forniture di prodotti, forniture di gift, ...)",
+		"id" : "15",
+		"titolo" : "Produzioni"
+	},
+	{
+		"descrizione" : "Logistica, altri servizi non legati alla comunicazione (stoccaggio materiali, manutenzione postazioni, ...)",
+		"id" : "16",
+		"titolo" : "Servizi"
+	},
+	{
+		"descrizione" : "Brand Matrix, consulenza strategica, analisi di mercato, service design",
+		"id" : "17",
+		"titolo" : "Consulenza Strategica"
+	}
+]
     `);
-function initListGroup(rows=ROWS,searched=""){
-    if(ROWS == "")
-        ROWS = rows;
-    if(searched == "")
-    {
-        var searchBox = document.getElementById('searchBox').value;
-        if(searchBox != undefined)
-            searched = searchBox;
-    }
-        
-    rowsObj = JSON.parse(rows);
-   //lo trasformo in un array di array per facilitare la ricerca
-   var arraySearch = fromObjectArrayToArrayArray(rowsObj);
-   var arraySearchSorted1 = new Array();
-   var arraySearchSorted2 = new Array();
-   var arraySearchSorted3 = new Array();
-   var arraySearchSorted4 = new Array();
-   var arraySearchSorted5 = new Array();
+    function initListGroup(rows = ROWS, searched = "") {
+        if (ROWS == "")
+            ROWS = rows;
+        if (searched == "") {
+            var searchBox = document.getElementById('searchBox').value;
+            if (searchBox != undefined)
+                searched = searchBox;
+        }
 
-   var recordsFound = findCostumer(arraySearch,searched);
-   recordsFound.forEach(element => {
+        rowsObj = JSON.parse(rows);
+        //lo trasformo in un array di array per facilitare la ricerca
+        var arraySearch = fromObjectArrayToArrayArray(rowsObj);
+        var arraySearchSorted1 = new Array();
+        var arraySearchSorted2 = new Array();
+        var arraySearchSorted3 = new Array();
+
+        var recordsFound = findCostumer(arraySearch, searched);
+        recordsFound.forEach(element => {
             arraySearchSorted1.push(arraySearch[0][element]);
             arraySearchSorted2.push(arraySearch[1][element]);
             arraySearchSorted3.push(arraySearch[2][element]);
-            arraySearchSorted4.push(arraySearch[3][element]);
-            arraySearchSorted5.push(arraySearch[4][element]);
         });
 
-   var arraySearch = [arraySearchSorted1, arraySearchSorted2, arraySearchSorted3,, arraySearchSorted4, arraySearchSorted5];
+        var arraySearch = [arraySearchSorted1, arraySearchSorted2, arraySearchSorted3];
 
-   var lista = document.getElementById('lista');
+        var lista = document.getElementById('lista');
 
-   lista.innerHTML = "";
-   for(let i=0;i<arraySearchSorted1.length;i++){
-    lista.innerHTML += initRiga(arraySearchSorted1[i],arraySearchSorted2[i],arraySearchSorted3[i],arraySearchSorted4[i],arraySearchSorted5[i]);
-   }
-   lista.childNodes.forEach(element => {element.addEventListener("click",()=>{
-        const listItems = document.querySelectorAll('.list-group-item');
-        listItems.forEach(item => {item.classList.remove('active');});
-        // aggiunge la classe 'active' solo all'elemento cliccato
-        element.classList.add('active');
-        let params = {
-            'azione':'conferma',
-            'id': element.id
+        lista.innerHTML = "";
+        for (let i = 0; i < arraySearchSorted1.length; i++) {
+            lista.innerHTML += initRiga(arraySearchSorted1[i], arraySearchSorted2[i], arraySearchSorted3[i]);
         }
-        console.log('id clicked row:',element.id);
-        FileMaker.PerformScriptWithOptions('selettoreListGroup',JSON.stringify(params))
-    });});
-        
-}
+        lista.childNodes.forEach(element => {
+            element.addEventListener("click", () => {
+                $(".list-group-item").removeClass('active');
+                // aggiunge la classe 'active' solo all'elemento cliccato
+                element.classList.add('active');
+                let params = {
+                    'azione': 'conferma',
+                    'id': element.id
+                }
+                console.log('id clicked row:', element.id);
+                // FileMaker.PerformScriptWithOption('BTN_selettoreListGroup', JSON.stringify(params), '0')
+            });
+        });
 
-function initRiga(id,titolo = "",descrizione = "",didascalia = "",apice = ""){
+    }
 
-    var elemento = `<a id="${id}" href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    function initRiga(id, titolo = "", descrizione = "", didascalia = "", apice = "") {
+
+        var elemento = `<a id="${id}" href="#" class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">${titolo}</h5>
             <small>${apice}</small>
@@ -111,28 +192,31 @@ function initRiga(id,titolo = "",descrizione = "",didascalia = "",apice = ""){
           <small>${didascalia}</small>
         </a>`;
 
-    return elemento;
-}
+        return elemento;
+    }
 
-    function findCostumer(json, searched="") {
-        if(searched == "" || json == ""){
+    function findCostumer(json, searched = "") {
+        if (searched == "" || json == "") {
             counter = new Array();
-            for(let i=0;i<json[0].length;i++)
+            for (let i = 0; i < json[0].length; i++)
                 counter[i] = i;
             return counter;
         }
 
         const result = new Array();
         for (let i = 0; i < json.length; i++) {
+            if(i == 0){
+                //per non cercare tra gli id, per cambiare basta togliere questo if
+                result[i] = [];
+                continue;
+            }
             result[i] = json[i].filter((property) => property.toLowerCase().includes(searched.toLowerCase()));
-
             for (let l = 0; l < json[i].length; l++)
                 if (result[i][l] != undefined)
                     result[i][l] = json[i].indexOf(result[i][l]);
 
         }
-
-        var res = result[0].concat(result[1], result[2], result[3], result[4]);
+        var res = result[0].concat(result[1],result[2]);
         res = res.filter(onlyUnique);
         res = res.sort();
         return res;
@@ -142,22 +226,39 @@ function initRiga(id,titolo = "",descrizione = "",didascalia = "",apice = ""){
         return self.indexOf(value) === index;
     }
 
-    function fromObjectArrayToArrayArray(inputArray){
+    function fromObjectArrayToArrayArray(inputArray) {
         var outputArray = new Array();
         var outputArray1 = new Array();
         var outputArray2 = new Array();
         var outputArray3 = new Array();
-        var outputArray4 = new Array();
-        var outputArray5 = new Array();
         inputArray.forEach(element => {
             outputArray1.push(element.id);
             outputArray2.push(element.titolo);
             outputArray3.push(element.descrizione);
-            outputArray4.push(element.didascalia);
-            outputArray5.push(element.apice);
         });
-        outputArray = [outputArray1,outputArray2,outputArray3,outputArray4,outputArray5]
+        outputArray = [outputArray1, outputArray2, outputArray3]
         return outputArray;
     }
+
+    function initSearchBox() {
+        var searchBox = document.getElementById("searchBox");
+        window.addEventListener('click', onClickOutside);
+        window.addEventListener('keypress', ((event) => {
+            if (event.key == "Enter") {
+                initListGroup(ROWS,searchBox.value);
+            }
+
+        }));
+    }
+
+    function onClickOutside(e) {
+        if (e.target.id != "searchBox") {
+            var searchBox = document.getElementById("searchBox");
+            window.removeEventListener('click', onClickOutside);
+            initListGroup(ROWS, searched = searchBox.value);
+        }
+
+    }
 </script>
+
 </html>
