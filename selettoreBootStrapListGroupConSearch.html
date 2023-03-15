@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="input-group">
+        <input id="searchBox" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <button type="button" class="btn btn-outline-primary" onclick="initListGroup()">search</button>
+    </div>
+    <div class="list-group" id="lista">
+        <!-- popolato in js -->
+    </div>
+
+</body>
+
+<script>
+    var ROWS = "";
+    initListGroup(`
+    [
+        {
+            "id":"cb33y2",
+            "titolo":"Beretta",
+            "descrizione":"made in italy che shotta più di tutti",
+            "didascalia":"tenere fuori dalla portata dei bambini",
+            "apice":"143,99"
+        },
+        {
+            "id":"2cntxq3",
+            "titolo":"9mm",
+            "descrizione":"comoda e con un tamburo musicale",
+            "didascalia":"caricatore venduto a parte",
+            "apice":"78,99"
+        },
+        {
+            "id":"3cm24w3xq",
+            "titolo":"Revolver",
+            "descrizione":"Per tutti gli amanti del vecchio stile, perfetta per roulette e giochi all'aperto",
+            "didascalia":"ricordarsi di lubrificare la rotella o esplode in mano",
+            "apice":"99,101"
+        }
+    ]
+    `);
+function initListGroup(rows=ROWS,searched=""){
+    if(ROWS == "")
+        ROWS = rows;
+    if(searched == "")
+    {
+        var searchBox = document.getElementById('searchBox').value;
+        if(searchBox != undefined)
+            searched = searchBox;
+    }
+        
+    rowsObj = JSON.parse(rows);
+   //lo trasformo in un array di array per facilitare la ricerca
+   var arraySearch = fromObjectArrayToArrayArray(rowsObj);
+   var arraySearchSorted1 = new Array();
+   var arraySearchSorted2 = new Array();
+   var arraySearchSorted3 = new Array();
+   var arraySearchSorted4 = new Array();
+   var arraySearchSorted5 = new Array();
+
+   var recordsFound = findCostumer(arraySearch,searched);
+   recordsFound.forEach(element => {
+            arraySearchSorted1.push(arraySearch[0][element]);
+            arraySearchSorted2.push(arraySearch[1][element]);
+            arraySearchSorted3.push(arraySearch[2][element]);
+            arraySearchSorted4.push(arraySearch[3][element]);
+            arraySearchSorted5.push(arraySearch[4][element]);
+        });
+
+   var arraySearch = [arraySearchSorted1, arraySearchSorted2, arraySearchSorted3,, arraySearchSorted4, arraySearchSorted5];
+
+   var lista = document.getElementById('lista');
+
+   lista.innerHTML = "";
+   for(let i=0;i<arraySearchSorted1.length;i++){
+    lista.innerHTML += initRiga(arraySearchSorted1[i],arraySearchSorted2[i],arraySearchSorted3[i],arraySearchSorted4[i],arraySearchSorted5[i]);
+   }
+   lista.childNodes.forEach(element => {element.addEventListener("click",()=>{
+        const listItems = document.querySelectorAll('.list-group-item');
+        listItems.forEach(item => {item.classList.remove('active');});
+        // aggiunge la classe 'active' solo all'elemento cliccato
+        element.classList.add('active');
+        console.log(element.id);
+    });});
+        
+}
+
+function initRiga(id,titolo = "",descrizione = "",didascalia = "",apice = ""){
+
+    var elemento = `<a id="${id}" href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">${titolo}</h5>
+            <small>${apice}</small>
+          </div>
+          <p class="mb-1">${descrizione}</p>
+          <small>${didascalia}</small>
+        </a>`;
+
+    return elemento;
+}
+
+    function findCostumer(json, searched="") {
+        if(searched == "" || json == ""){
+            counter = new Array();
+            for(let i=0;i<json[0].length;i++)
+                counter[i] = i;
+            return counter;
+        }
+
+        const result = new Array();
+        for (let i = 0; i < json.length; i++) {
+            result[i] = json[i].filter((property) => property.toLowerCase().includes(searched.toLowerCase()));
+
+            for (let l = 0; l < json[i].length; l++)
+                if (result[i][l] != undefined)
+                    result[i][l] = json[i].indexOf(result[i][l]);
+
+        }
+
+        var res = result[0].concat(result[1], result[2], result[3], result[4]);
+        res = res.filter(onlyUnique);
+        res = res.sort();
+        return res;
+    }
+
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+
+    function clickedSearch() {
+        var searchBar = document.getElementById("searchBar");
+        searchBar.classList.add('grayPlaceHolder');
+        window.addEventListener('click', onClickOutside);
+        window.addEventListener('keypress', ((event, searched) => {
+            if (event.key == "Enter") {
+                costruisciElenco(ElencoInJSON, searched = searchBar.value);
+            }
+
+        }));
+    }
+
+    function onClickOutside(e) {
+        if (e.target.id != "searchBar") {
+            var searchBar = document.getElementById("searchBar");
+            searchBar.classList.remove('grayPlaceHolder');
+            window.removeEventListener('click', onClickOutside);
+            costruisciElenco(ElencoInJSON, searched = searchBar.value);
+        }
+
+    }
+
+    function fromObjectArrayToArrayArray(inputArray){
+        var outputArray = new Array();
+        var outputArray1 = new Array();
+        var outputArray2 = new Array();
+        var outputArray3 = new Array();
+        var outputArray4 = new Array();
+        var outputArray5 = new Array();
+        inputArray.forEach(element => {
+            outputArray1.push(element.id);
+            outputArray2.push(element.titolo);
+            outputArray3.push(element.descrizione);
+            outputArray4.push(element.didascalia);
+            outputArray5.push(element.apice);
+        });
+        outputArray = [outputArray1,outputArray2,outputArray3,outputArray4,outputArray5]
+        return outputArray;
+    }
+</script>
+</html>
