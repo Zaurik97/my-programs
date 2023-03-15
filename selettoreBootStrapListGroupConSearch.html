@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Selettore List Group</title>
 </head>
 <body>
     <div class="input-group">
@@ -90,7 +90,12 @@ function initListGroup(rows=ROWS,searched=""){
         listItems.forEach(item => {item.classList.remove('active');});
         // aggiunge la classe 'active' solo all'elemento cliccato
         element.classList.add('active');
-        console.log(element.id);
+        let params = {
+            'azione':'conferma',
+            'id': element.id
+        }
+        console.log('id clicked row:',element.id);
+        FileMaker.PerformScriptWithOptions('selettoreListGroup',JSON.stringify(params))
     });});
         
 }
@@ -135,28 +140,6 @@ function initRiga(id,titolo = "",descrizione = "",didascalia = "",apice = ""){
 
     function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
-    }
-
-    function clickedSearch() {
-        var searchBar = document.getElementById("searchBar");
-        searchBar.classList.add('grayPlaceHolder');
-        window.addEventListener('click', onClickOutside);
-        window.addEventListener('keypress', ((event, searched) => {
-            if (event.key == "Enter") {
-                costruisciElenco(ElencoInJSON, searched = searchBar.value);
-            }
-
-        }));
-    }
-
-    function onClickOutside(e) {
-        if (e.target.id != "searchBar") {
-            var searchBar = document.getElementById("searchBar");
-            searchBar.classList.remove('grayPlaceHolder');
-            window.removeEventListener('click', onClickOutside);
-            costruisciElenco(ElencoInJSON, searched = searchBar.value);
-        }
-
     }
 
     function fromObjectArrayToArrayArray(inputArray){
