@@ -1,0 +1,250 @@
+<html style="background-color: rgb(47, 12, 12);">
+
+<head>
+    <style>
+        table {
+            table-layout: fixed;
+            width: 94%;
+            background-color: rgb(47, 12, 12);
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+            font-family: 'Lato', sans-serif;
+            font-family: 'Noto Sans', sans-serif;
+            position: fixed;
+            top: 6%;
+            margin-left: 3%;
+            margin-right: 3%;
+            border: none;
+            border-collapse: collapse;
+        }
+        
+        th {
+            color: rgba(240, 239, 239, 0.969);
+            padding-top: 1%;
+            position: relative;
+            top: 25%;
+            -ms-transform: translateY(-25%);
+            transform: translateY(-25%);
+        }
+        
+        .stdTr {
+            color: rgb(212, 214, 212);
+            height: 40pt;
+        }
+        
+        .stdTr:nth-child(even) {
+            background-color: rgb(46, 24, 24);
+        }
+        
+        .stdTr:hover {
+            background-color: rgb(59, 37, 28);
+        }
+        
+        .captionTabella {
+            color: rgba(240, 239, 239, 0.969);
+            font-size: larger;
+            text-align: left;
+        }
+        
+        .corpoTabella {
+            padding-bottom: 0.5em;
+            width: 100%;
+        }
+        
+        .search {
+            position: fixed;
+            top: 2%;
+            margin-left: 45%;
+            margin-right: 45%;
+            width: 35px;
+            height: 35px;
+            border-radius: 25px;
+            padding: 10px;
+            transition-duration: 500ms;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-family: 'Lato', sans-serif;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 15px;
+            color: transparent;
+            border: 1px solid white;
+            overflow: hidden;
+            /* background-image: url(search_icon.png); */
+            background-repeat: no-repeat;
+            background-size: 22px;
+            background-position: 45% 50%;
+            background-color: transparent;
+        }
+        
+         ::placeholder {
+            color: rgb(47, 12, 12);
+        }
+        
+        .search:hover {
+            width: 30px;
+        }
+        
+        .search:focus {
+            width: 400;
+            position: fixed;
+            top: 2%;
+            margin-left: 36%;
+            margin-right: 45%;
+            cursor: text;
+            padding-left: 40px;
+            color: white;
+            outline: none;
+            background-color: transparent;
+            border: 1px solid white;
+            /* background: url(search_icon.png) no-repeat; */
+            background-size: 22px;
+            background-position: 10px 50%;
+        }
+        
+        .grayPlaceHolder::-webkit-input-placeholder {
+            color: gray;
+        }
+        
+        .lineCaption {
+            position: relative;
+            width: 94%;
+            height: 55px;
+            margin-left: 3%;
+            margin-right: 3%;
+            border-bottom: 1px solid black;
+        }
+        
+        .lineTableHead {
+            position: relative;
+            width: 94%;
+            /* height: 37px; for web*/
+            height: 13px;
+            margin-left: 3%;
+            margin-right: 3%;
+            border-bottom: 1px solid black;
+            z-index: 1;
+        }
+        
+        .transparentButton {
+            color: transparent;
+            background-color: transparent;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="transparentButton" onclick="costruisciElenco()">Click me</button>
+    <input id="searchBar" class="search" placeholder="ricerca.." onclick="clickedSearch()">
+
+    <div>
+        <table id="table">
+            <caption class="captionTabella">Clienti</caption>
+            <div class="lineCaption"></div>
+            <thead class="headTabella">
+                <tr class="trWithoutOver">
+                    <th>Ragione sociale</th>
+                    <th>Codice fiscale</th>
+                    <th>Partita IVA</th>
+                </tr>
+            </thead>
+            <div class="lineTableHead"></div>
+            <tbody id="listaOrdini" class="corpoTabella"></tbody>
+        </table>
+        <p id="index"></p>
+    </div>
+
+</body>
+<script>
+    var ElencoInJSON;
+
+    function clickedRow(e) {
+        var index = e.target.id;
+        FileMaker.PerformScript("getTableIndex", index);
+
+    }
+
+    function findCostumer(json, searched) {
+
+        const result = new Array();
+        for (let i = 0; i < json.length; i++) {
+            result[i] = json[i].filter((property) => property.toLowerCase().includes(searched.toLowerCase()));
+
+            for (let l = 0; l < json[i].length; l++)
+                if (result[i][l] != undefined)
+                    result[i][l] = json[i].indexOf(result[i][l]);
+
+        }
+
+        var res = result[0].concat(result[1], result[2]);
+        res = res.filter(onlyUnique);
+        res = res.sort();
+        return res;
+    }
+
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+
+    function costruisciElenco(json, searched = "") { //icona
+
+        var json1 = `[ ["Aurelio spa","Monsters Inc","COMA rocks","COSA cosompany","Eppol Inc","Anaconda johnny","Homo Medians"],["YTNDJS92I46H724H","ERGBHI73I92U735U","USMOST72J92O927O","YDJSOY82H25I456I","TRCSK3457CVS","B8673NFT45VC2QW","3B945G8NT67FVR23"],["326464","238974","672432","236722","254623","234563","256423"]]`;
+        if (!ElencoInJSON) {
+            ElencoInJSON = json1;
+            // var searchBar = document.getElementById("searchBar");
+            // searchBar.style.add("background-image", icona);
+        }
+
+        var jsArray = JSON.parse(json1);
+        var jsArraySorted1 = new Array();
+        var jsArraySorted2 = new Array();
+        var jsArraySorted3 = new Array();
+        var recordsFound = findCostumer(jsArray, searched);
+        recordsFound.forEach(element => {
+            jsArraySorted1.push(jsArray[0][element]);
+            jsArraySorted2.push(jsArray[1][element]);
+            jsArraySorted3.push(jsArray[2][element]);
+        });
+        jsArray = [jsArraySorted1, jsArraySorted2, jsArraySorted3];
+
+        var tabella = document.getElementById("listaOrdini");
+        tabella.innerHTML = ""
+
+        for (let i = 0; i < jsArray[0].length; i++)
+            tabella.innerHTML += `<tr class="stdTr" onclick="clickedRow(event)"><td id="${i}">${jsArray[0][i]}</td><td id="${i}">${jsArray[1][i]}</td><td id="${i}">${jsArray[2][i]}</td></tr>`
+
+        var HTMLrows = new Array();
+        for (let i = 0; i < jsArray[0].lenght; i++) {
+            HTMLrows[i] = document.getElementById(i);
+            HTMLrows[i].addEventListener('click', (e) => {
+                clickedRow(e);
+                e.preventDefault();
+            });
+        }
+    }
+
+    function clickedSearch() {
+        var searchBar = document.getElementById("searchBar");
+        searchBar.classList.add('grayPlaceHolder');
+        window.addEventListener('click', onClickOutside);
+        window.addEventListener('keypress', ((event, searched) => {
+            if (event.key == "Enter") {
+                console.log("ci sono anche io")
+                costruisciElenco(ElencoInJSON, searched = searchBar.value);
+            }
+
+        }));
+    }
+
+    function onClickOutside(e) {
+        if (e.target.id != "searchBar") {
+            var searchBar = document.getElementById("searchBar");
+            searchBar.classList.remove('grayPlaceHolder');
+            window.removeEventListener('click', onClickOutside);
+            costruisciElenco(ElencoInJSON, searched = searchBar.value);
+        }
+
+    }
+</script>
+
+</html>
