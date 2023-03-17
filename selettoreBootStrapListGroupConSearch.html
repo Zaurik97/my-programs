@@ -16,14 +16,15 @@
     <style>
         #searchBox {
             position: fixed;
-            top: 0px;
-            width: 100%;
-            left: 0px;
+            top: 5px;
+            width:auto;
+            left: 10px;
+            right: 10px;
             margin: 0px;
             z-index: 1000;
         }
         #lista {
-            margin-top: 38px;
+            margin-top: 48px;/*38 per il box e 5 del top e 5 tra i due oggetti*/
         }
     </style>
     <meta charset="UTF-8">
@@ -34,7 +35,7 @@
 
 <body>
     <div class="input-group position:sticky-top : 0">
-        <input id="searchBox" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+        <input id="searchBox" type="search" class="form-control rounded" placeholder="Cerca" aria-label="Search"
             aria-describedby="search-addon" onclick="initSearchBox()" />
         <!-- <button type="button" class="btn btn-outline-primary" onclick="initListGroup()">search</button> -->
     </div>
@@ -50,6 +51,21 @@
 	{
 		"descrizione" : "Grande evento che prevede engagement, coinvolge diverse aree specialiste e ha un servizio all inclusive. Ad esempio festa aziendali, inaugurazioni di centri, roadshow in mall, grandi eventi in store.",
 		"id" : "1",
+		"titolo" : "Big Event"
+	},
+    {
+		"descrizione" : "Grande evento che prevede engagement, coinvolge diverse aree specialiste e ha un servizio all inclusive. Ad esempio festa aziendali, inaugurazioni di centri, roadshow in mall, grandi eventi in store.",
+		"id" : "100",
+		"titolo" : "Big Event"
+	},
+    {
+		"descrizione" : "Grande evento che prevede engagement, coinvolge diverse aree specialiste e ha un servizio all inclusive. Ad esempio festa aziendali, inaugurazioni di centri, roadshow in mall, grandi eventi in store.",
+		"id" : "101",
+		"titolo" : "Big Event"
+	},
+    {
+		"descrizione" : "Grande evento che prevede engagement, coinvolge diverse aree specialiste e ha un servizio all inclusive. Ad esempio festa aziendali, inaugurazioni di centri, roadshow in mall, grandi eventi in store.",
+		"id" : "102",
 		"titolo" : "Big Event"
 	},
 	{
@@ -150,7 +166,7 @@
         var arraySearchSorted2 = new Array();
         var arraySearchSorted3 = new Array();
 
-        var recordsFound = findCostumer(arraySearch, searched);
+        var recordsFound = NEW_findCostumer(arraySearch, searched);
         recordsFound.forEach(element => {
             arraySearchSorted1.push(arraySearch[0][element]);
             arraySearchSorted2.push(arraySearch[1][element]);
@@ -195,6 +211,7 @@
         return elemento;
     }
 
+    //questa funzione è stata sostituita da NEW_findCostumer perchè se due titoli o descrizioni sono uguali veniva trovata solo la prima ricorrenza
     function findCostumer(json, searched = "") {
         if (searched == "" || json == "") {
             counter = new Array();
@@ -207,13 +224,18 @@
         for (let i = 0; i < json.length; i++) {
             if(i == 0){
                 //per non cercare tra gli id, per cambiare basta togliere questo if
-                result[i] = [];
+                result[0] = [];
                 continue;
             }
             result[i] = json[i].filter((property) => property.toLowerCase().includes(searched.toLowerCase()));
+            
+            
             for (let l = 0; l < json[i].length; l++)
+            {
                 if (result[i][l] != undefined)
                     result[i][l] = json[i].indexOf(result[i][l]);
+            }
+                
 
         }
         var res = result[0].concat(result[1],result[2]);
@@ -259,6 +281,32 @@
         }
 
     }
+    function NEW_findCostumer(json, searched = "") {
+        if (searched == "" || json == "") {
+            counter = new Array();
+            for (let i = 0; i < json[0].length; i++)
+                counter[i] = i;
+            return counter;
+        }
+
+        const result = new Array();
+        for (let i = 0; i < json.length; i++) {
+           
+                result[i] = json[i].reduce((accumulator, elemento, index) => {
+                if (elemento.toLowerCase().includes(searched.toLowerCase())) {
+                    accumulator.push(index);
+                }
+                return accumulator;
+            }, []);
+
+        }
+        var res = result[0].concat(result[1],result[2]);
+        res = res.filter(onlyUnique);
+        res = res.sort();
+        return res;
+    }
+
+
 </script>
 
 </html>
