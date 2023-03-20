@@ -24,7 +24,7 @@
             z-index: 1000;
         }
         #lista {
-            margin-top: 48px;/*38 per il box e 5 del top e 5 tra i due oggetti*/
+            margin-top: 48px;
         }
     </style>
     <meta charset="UTF-8">
@@ -151,15 +151,21 @@
 ]
     `);
     function initListGroup(rows = ROWS, searched = "") {
-        if (ROWS == "")
-            ROWS = rows;
+        
         if (searched == "") {
             var searchBox = document.getElementById('searchBox').value;
             if (searchBox != undefined)
                 searched = searchBox;
         }
+        if (ROWS == ""){
+            rowsObj = JSON.parse(rows);
+            ROWS = rowsObj; 
+        }
+        else
+            rowsObj = ROWS;
 
-        rowsObj = JSON.parse(rows);
+        rowsObj.sort((a, b) => a.titolo.localeCompare(b.titolo));
+
         //lo trasformo in un array di array per facilitare la ricerca
         var arraySearch = fromObjectArrayToArrayArray(rowsObj);
         var arraySearchSorted1 = new Array();
@@ -174,15 +180,18 @@
         });
 
         var arraySearch = [arraySearchSorted1, arraySearchSorted2, arraySearchSorted3];
+        arraySearch = sortArrayArray(arraySearch);
 
         var lista = document.getElementById('lista');
-
+        console.log(arraySearch)
         lista.innerHTML = "";
+
         for (let i = 0; i < arraySearchSorted1.length; i++) {
-            lista.innerHTML += initRiga(arraySearchSorted1[i], arraySearchSorted2[i], arraySearchSorted3[i]);
+            lista.innerHTML += initRiga(arraySearch[0][i], arraySearch[1][i], arraySearch[2][i]);
         }
         lista.childNodes.forEach(element => {
             element.addEventListener("click", () => {
+                event.preventDefault();
                 $(".list-group-item").removeClass('active');
                 // aggiunge la classe 'active' solo all'elemento cliccato
                 element.classList.add('active');
@@ -240,7 +249,6 @@
         }
         var res = result[0].concat(result[1],result[2]);
         res = res.filter(onlyUnique);
-        res = res.sort();
         return res;
     }
 
@@ -260,6 +268,13 @@
         });
         outputArray = [outputArray1, outputArray2, outputArray3]
         return outputArray;
+    }
+
+    function fromArrayArrayToObjectArray(array){
+        var objArray = new Array();
+        for(let index= 0; index<array[0].length;index++)
+            objArray.push({'id':array[0][index],'titolo':array[1][index],'descrizione':array[2][index]});
+        return objArray;
     }
 
     function initSearchBox() {
@@ -303,10 +318,22 @@
         var res = result[0].concat(result[1],result[2]);
         res = res.filter(onlyUnique);
         res = res.sort();
+
         return res;
     }
 
+    function sortArrayArray(arrayArray){
+        var objArray = fromArrayArrayToObjectArray(arrayArray);
+        objArray = sortObjectArray(objArray);
+        sortedArrayArray = fromObjectArrayToArrayArray(objArray);
+        return sortedArrayArray;
+    }
 
+    function sortObjectArray(objArray){
+        objArray.sort((a, b) => a.titolo.localeCompare(b.titolo));
+
+        return objArray;
+    }
 </script>
 
 </html>
