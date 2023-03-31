@@ -163,30 +163,13 @@
         }
         else
             rowsObj = ROWS;
-
-        rowsObj.sort((a, b) => a.titolo.localeCompare(b.titolo));
-
-        //lo trasformo in un array di array per facilitare la ricerca
-        var arraySearch = fromObjectArrayToArrayArray(rowsObj);
-        var arraySearchSorted1 = new Array();
-        var arraySearchSorted2 = new Array();
-        var arraySearchSorted3 = new Array();
-
-        var recordsFound = NEW_findCostumer(arraySearch, searched);
-        recordsFound.forEach(element => {
-            arraySearchSorted1.push(arraySearch[0][element]);
-            arraySearchSorted2.push(arraySearch[1][element]);
-            arraySearchSorted3.push(arraySearch[2][element]);
-        });
-
-        var arraySearch = [arraySearchSorted1, arraySearchSorted2, arraySearchSorted3];
-        arraySearch = sortArrayArray(arraySearch);
+            
+        var arraySearch = ricerca(rowsObj,searched);
 
         var lista = document.getElementById('lista');
-        console.log(arraySearch)
         lista.innerHTML = "";
 
-        for (let i = 0; i < arraySearchSorted1.length; i++) {
+        for (let i = 0; i < arraySearch[0].length; i++) {
             lista.innerHTML += initRiga(arraySearch[0][i], arraySearch[1][i], arraySearch[2][i]);
         }
         lista.childNodes.forEach(element => {
@@ -218,6 +201,28 @@
         </a>`;
 
         return elemento;
+    }
+
+    function ricerca(rowsObj,searched){
+        rowsObj.sort((a, b) => a.titolo.localeCompare(b.titolo));
+
+        //lo trasformo in un array di array per facilitare la ricerca
+        var arraySearch = fromObjectArrayToArrayArray(rowsObj);
+        var arraySearchSorted1 = new Array();
+        var arraySearchSorted2 = new Array();
+        var arraySearchSorted3 = new Array();
+
+        var recordsFound = NEW_findCostumer(arraySearch, searched);
+        recordsFound.forEach(element => {
+            arraySearchSorted1.push(arraySearch[0][element]);
+            arraySearchSorted2.push(arraySearch[1][element]);
+            arraySearchSorted3.push(arraySearch[2][element]);
+        });
+
+        var arraySearch = [arraySearchSorted1, arraySearchSorted2, arraySearchSorted3];
+        arraySearch = sortArrayArray(arraySearch);
+
+        return arraySearch;
     }
 
     //questa funzione è stata sostituita da NEW_findCostumer perchè se due titoli o descrizioni sono uguali veniva trovata solo la prima ricorrenza
